@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Manager</title>
+    <link rel="stylesheet" href="file-manager.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <!-- Search Container -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.39zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z" />
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search tabs..." aria-label="Search tabs">
+                </div>
+            </div>
+
+            <!-- Group Section -->
+            <div class="group-section">
+                <div class="section-header">
+                    <h2>Tab Groups</h2>
+                    <button id="createGroup" class="icon-button" aria-label="Create new group">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg>
+                    </button>
+                </div>
+                <ul id="groupList" class="group-list" role="listbox"></ul>
+            </div>
+
+            <!-- Sidebar Actions -->
+            <div class="sidebar-actions">
+                <button id="exportGroups" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                    </svg>
+                    Export
+                </button>
+                <button id="importGroups" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path fill="currentColor" d="M19 15l-7-7-7 7h4v6h6v-6h4zM5 4v2h14V4H5z" />
+                    </svg>
+                    Import
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main">
+            <!-- Tab List Container -->
+            <div id="fileListContainer">
+                <ul id="fileList" class="tab-list" role="listbox" style="padding: 0;"></ul>
+                <!-- Welcome Message -->
+                <div id="welcomeMessage" class="welcome-message">
+                    <svg viewBox="0 0 24 24" width="48" height="48">
+                        <path fill="currentColor"
+                            d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z" />
+                    </svg>
+                    <h2>Welcome to Tab Manager!</h2>
+                    <p>Select a group to view its tabs or create a new one</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+<div id="exportModal" class="modal" hidden>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Export Groups</h3>
+            <button class="close-button" aria-label="Close modal">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="export-controls">
+                <button id="selectAllGroups" class="btn btn-secondary">Select All</button>
+                <button id="deselectAllGroups" class="btn btn-secondary">Deselect All</button>
+            </div>
+
+            <div id="groupCheckboxes" class="group-checkbox-list">
+                <!-- Groups will be added dynamically -->
+            </div>
+
+            <div class="additional-options">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="exportUngroupedTabs">
+                    <span>Export Ungrouped Tabs</span>
+                </label>
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="exportPinnedTabs">
+                    <span>Export Pinned Tabs</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary cancel">Cancel</button>
+            <button id="confirmExport" class="btn btn-primary">Export Selected</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu" hidden>
+        <ul>
+            <li id="openTab">Open Tab</li>
+            <li id="closeTab">Close Tab</li>
+            <li id="moveToGroup">Move to Group</li>
+            <li id="removeFromGroup">Remove from Group</li>
+        </ul>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progressContainer" class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <!-- Toast Messages -->
+    <div id="message" role="alert"></div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcutsModal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Keyboard Shortcuts</h3>
+                <button class="close-button" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="shortcutsList">
+                    <!-- Shortcuts will be added dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js" type="module"></script>
+    <script src="../js/keyboard-shortcuts.js" type="module"></script>
+    <script src="../js/tab-groups.js" type="module"></script>
+    <script src="../js/export-import.js" type="module"></script>
+    <script src="file-manager.js" type="module"></script>
+</body>
+
+</html>

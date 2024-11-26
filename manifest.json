@@ -1,0 +1,87 @@
+{
+    "manifest_version": 3,
+    "name": "Modern Tab Manager",
+    "version": "3.0.0",
+    "description": "A powerful tab management solution with group support, search, and organization features",
+    
+    "permissions": [
+      "tabs",
+      "tabGroups",
+      "storage",
+      "contextMenus",
+      "downloads",
+      "unlimitedStorage"
+    ],
+  
+    "host_permissions": [
+      "<all_urls>"
+    ],
+  
+    "action": {
+      "default_popup": "popup/file-manager.html",
+      "default_icon": {
+        "16": "icons/icon.png",
+        "32": "icons/icon.png",
+        "48": "icons/icon.png",
+        "128": "icons/icon.png"
+      },
+      "default_title": "Tab Manager"
+    },
+  
+    "icons": {
+      "16": "icons/icon.png",
+      "32": "icons/icon.png",
+      "48": "icons/icon.png",
+      "128": "icons/icon.png"
+    },
+  
+    "background": {
+      "service_worker": "background.js",
+      "type": "module"
+    },
+  
+    "options_page": "options/options.html",
+  
+    "commands": {
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+M",
+          "mac": "Command+Shift+M"
+        },
+        "description": "Open Tab Manager"
+      },
+      "search_tabs": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+F",
+          "mac": "Command+Shift+F"
+        },
+        "description": "Search Tabs"
+      },
+      "create_group": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+G",
+          "mac": "Command+Shift+G"
+        },
+        "description": "Create New Group from Selected Tabs"
+      }
+    },
+  
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+    },
+  
+    "web_accessible_resources": [{
+    "resources": [
+      "icons/*",
+      "images/*",
+      "js/*"
+    ],
+    "matches": ["<all_urls>"]
+  }],
+  
+    "author": "Aswin M Shenoy",
+    "homepage_url": "https://github.com/TheCodePrism",
+    "minimum_chrome_version": "88",
+    "offline_enabled": true,
+    "incognito": "split"
+  }

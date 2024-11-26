@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Manager Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Tab Manager Settings</h1>
+            <div class="theme-toggle">
+                <input type="checkbox" id="darkMode" class="theme-toggle-input">
+                <label for="darkMode" class="theme-toggle-label">
+                    <span class="theme-icon light">🌞</span>
+                    <span class="theme-icon dark">🌙</span>
+                </label>
+            </div>
+        </header>
+
+        <main class="settings-container">
+            <!-- Quick Actions -->
+            <section class="settings-section">
+                <h2>Quick Actions</h2>
+                <div class="quick-actions">
+                    <button id="groupAllTabs" class="btn btn-secondary">Group All Tabs by Domain</button>
+                    <button id="ungroupAllTabs" class="btn btn-secondary">Ungroup All Tabs</button>
+                    <button id="sortGroups" class="btn btn-secondary">Sort Groups Alphabetically</button>
+                </div>
+            </section>
+
+            <!-- General Settings -->
+            <section class="settings-section">
+                <h2>General Settings</h2>
+                
+                <div class="form-group">
+                    <label for="fileNameTemplate">File Name Template</label>
+                    <div class="input-with-preview">
+                        <input type="text" id="fileNameTemplate" name="fileNameTemplate">
+                        <button id="previewTemplate" class="btn btn-secondary btn-sm">Preview</button>
+                    </div>
+                    <small class="help-text">
+                        Available placeholders: {index}, {title}, {url}, {date}, {group}
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="showTabCount">
+                        <span>Show tab count in extension badge</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="groupNewTabs">
+                        <span>Automatically group new tabs with similar ones</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Group Management -->
+            <section class="settings-section">
+                <h2>Group Management</h2>
+                
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="autoGroup">
+                        <span>Enable automatic tab grouping</span>
+                    </label>
+                </div>
+
+                <div id="autoGroupSettings" class="nested-settings">
+                    <div class="form-group">
+                        <label>Auto-group Domains</label>
+                        <div class="tag-input-container">
+                            <input type="text" id="domainInput" placeholder="Enter domain and press Enter">
+                            <div id="domainTags" class="tag-list"></div>
+                        </div>
+                        <small class="help-text">Popular domains: 
+                            <button class="quick-add-domain" data-domain="github.com">github.com</button>,
+                            <button class="quick-add-domain" data-domain="google.com">google.com</button>
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Group Colors</label>
+                        <div id="groupColors" class="color-picker"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxGroupSize">Maximum tabs per group</label>
+                        <input type="number" id="maxGroupSize" min="0" max="100" value="20">
+                        <small class="help-text">0 for unlimited</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Behavior Settings -->
+            <section class="settings-section">
+                <h2>Behavior Settings</h2>
+                
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="confirmTabClose">
+                        <span>Confirm before closing multiple tabs</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="saveGroupsOnExit">
+                        <span>Remember tab groups between sessions</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="collapseInactiveTabs">
+                        <span>Automatically collapse inactive groups</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="inactiveTimeout">Collapse after inactivity (minutes)</label>
+                    <input type="number" id="inactiveTimeout" min="1" max="1440" value="30">
+                </div>
+            </section>
+
+            <!-- Keyboard Shortcuts -->
+            <section class="settings-section">
+                <h2>Keyboard Shortcuts</h2>
+                <div class="shortcuts-list">
+                    <div class="shortcut-item">
+                        <span>Open Tab Manager</span>
+                        <div class="shortcut-keys">
+                            <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>
+                        </div>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>Search Tabs</span>
+                        <div class="shortcut-keys">
+                            <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>
+                        </div>
+                    </div>
+                    <button id="customizeShortcuts" class="btn btn-secondary">Customize Shortcuts</button>
+                </div>
+            </section>
+
+            <!-- Backup & Reset -->
+            <section class="settings-section">
+                <h2>Backup & Reset</h2>
+                <div class="button-group">
+                    <button id="exportSettings" class="btn btn-secondary">Export Settings</button>
+                    <button id="importSettings" class="btn btn-secondary">Import Settings</button>
+                    <button id="resetSettings" class="btn btn-danger">Reset to Default</button>
+                </div>
+                <small class="help-text">Last backup: <span id="lastBackup">Never</span></small>
+            </section>
+        </main>
+
+        <footer class="settings-footer">
+            <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+        </footer>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>File Name Preview</h3>
+                <button class="close-button" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="previewContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcutsModal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Customize Shortcuts</h3>
+                <button class="close-button" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="shortcutsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Messages -->
+    <div id="message" role="alert"></div>
+
+    <script src="options.js" type="module"></script>
+</body>
+</html>
